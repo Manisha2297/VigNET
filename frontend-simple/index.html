@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>VigNET - Visual Question Answering</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href='//fonts.googleapis.com/css?family=Lato:900,400' rel='stylesheet' type='text/css'>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+                body {
+            margin: 0;
+            background-color: white;
+        }
+
+        .mdc-top-app-bar {
+            background-color: #1c4385;
+        }
+
+        .content {
+
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+
+        .container_1 {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dropzone {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            border-width: 2px;
+            border-radius: 2px;
+            border-color: #cccccc;
+            border-style: dashed;
+            background-color: #fafafa;
+            outline: none;
+            transition: border .24s ease-in-out;
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 300px;
+            background-image: url("https://www.svgrepo.com/show/9443/photo-camera.svg");
+        }
+
+        .prediction {
+            font-family: Roboto, sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 0.5em;
+        }
+        h1 {
+            text-align: center;
+            font-weight: 100;
+        }
+        header {
+            border-bottom: 1px solid #0d122b;
+            margin-bottom: 2em;
+        }
+        main {
+            flex-grow: 2;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            padding-top: 4em;
+            text-align: center;
+        }
+        @keyframes bg-pulse {
+        0% {
+            background-color: #fff;
+        }
+    
+        50% {
+            background-color: #c7ecee;
+        }
+    
+        100% {
+            backgrouond-color: #fff;
+        }
+        }
+        .speaking {
+            animation: bg-pulse 1.5s alternate ease-in-out infinite;
+        }
+        #result {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+        }
+        #result .final {
+            color: #0d122b;
+            font-style: normal;
+        }
+        #ask_button {
+            flex:10%;
+            font-size: 18px;
+            font-weight: 200;
+            padding: 1em;
+            width: 200px;
+            background: transparent;
+            border: 4px solid #f22f46;
+            border-radius: 4px;
+            transition: all 0.4s ease 0s;
+            cursor: pointer;
+            color: #f22f46;
+            margin-bottom: 4em;
+        }
+        #ask_button:hover,
+        #ask_button:focus {
+            background: #f22f46;
+            color: #fff;
+        }
+    
+        a {
+        color: #0d122b;
+        }
+        .error {
+            color: #f22f46;
+            text-align: center;
+        }
+        footer {
+            border-top: 1px solid #0d122b;
+            text-align: center;
+        }
+        #input_question{
+            padding: 0.5em;
+            margin-left: 20px;
+            flex: 50%;
+            height: 50px;
+            width: 500px;
+            font-size: 18px;
+            font-weight: 200;
+        }
+        .flex-container {
+    display: flex;
+}
+#submit_button {
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    font-size: 20px;
+    font-weight: 400;
+    top: -50px;
+    border: 4px solid #f22f46;
+    border-radius: 4px;
+    transition: all 0.4s ease 0s;
+    cursor: pointer;
+    color: #f22f46;
+    padding: 20px;
+    background-color: #fff;
+    min-width: 250px;
+}
+#submit_button:hover,
+        #ask_button:focus {
+            background: #f22f46;
+            color: #fff;
+        }
+#prediction_label_vilt {
+    font-style: italic;
+    color: darkgreen;
+    text-transform: capitalize;
+}
+.center {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.flex-child {
+    flex: 40%;
+} 
+.mdc-layout-grid__cell{
+    margin: 10px;
+    background-image: linear-gradient(120deg, lightgrey, lightblue);
+    min-height: 300px;
+} 
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #1c4385; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+
+}
+.answer {
+    flex: 70%;
+}
+.text_value{
+    padding-left: 0.5em;
+    font-size: 16px;
+    font-weight: 550;
+    margin-top: 0%;
+    margin-bottom: 5%;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.hourglass{
+    background:white;
+    width:2em;
+    height:2em;
+    animation:hourglass 1s linear infinite;
+    position: relative;
+    display: none;
+}
+
+@keyframes hourglass{
+    0%{
+        transform:rotate(0deg);
+        box-shadow:
+            inset white 0 -0em 0 0,
+            inset lightblue -2em 0 0,
+            inset  white 0 -4em 0 0;
+    }
+    80%{
+        transform:rotate(0deg);
+        box-shadow:
+            inset white 0 -2em 0 0,
+            inset lightblue 0 -2em 0 0,
+            inset white 0 -2em 0 0;
+    }
+    100%{
+        transform:rotate(180deg);
+        box-shadow:
+            inset white 0 -2em 0 0,
+            inset lightblue 0 -2em 0 0,
+            inset white 0 -2em 0 0;
+    }
+}
+    </style>
+  </head>
+  <body>
+    <header class="mdc-top-app-bar" style="align-items: center;position: relative;">
+        <div class="mdc-top-app-bar__row" style="max-width: 700px;">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <span class="mdc-top-app-bar__title" style="font-weight: 900; font-size: 30px;">VigNET - Visual Question Answering App</span>
+            </section>
+        </div>
+    </header>
+    <div class="content">
+        <div class="container_1">
+            <div class="mdc-card mdc-card--outlined" style="min-height: 400px;">
+                <div class="dropzone" onclick="upload_file()">
+
+                    <input type="file" id="input_file" accept="image/*" capture="camera" name="input_file" on
+                        autocomplete="off" tabindex="-1" style="display: none;">
+                    <div><img id="input_file_view" style="width:100%;" /></div>
+                    <div style="color: #302f2f;">Click to take a picture or upload...</div>
+                </div>
+                <div class="flex-container">
+                    <div class="flex-child"></div>
+                        <button id="ask_button" class="flex-child">Ask your question</button>
+                        <div id="result"></div>
+                        <p id="message" hidden aria-hidden="true">
+                          Your browser doesn't support Speech Recognition. Sorry.
+                        </p>
+                    <input type="text" id="input_question" name="input_question" on autocomplete="on" class="flex-child">  
+                    <div class="flex-child"></div>
+                </div>
+                    <button type="submit" id="submit_button" onclick="input_file_onchange()" class="center flex-child"> Submit </button>
+                    <div class="loader" id="spinner"></div>
+                <div style="padding:20px;" class="flex-container">
+                    <div class="flex-child"></div>
+                    <div class="flex-child answer">
+                    <label class="prediction">Answer:</label>
+                    <span class="wrapper">
+                        <svg class="hourglass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 206" preserveAspectRatio="none">
+                            <path class="middle" d="M120 0H0v206h120V0zM77.1 133.2C87.5 140.9 92 145 92 152.6V178H28v-25.4c0-7.6 4.5-11.7 14.9-19.4 6-4.5 13-9.6 17.1-17 4.1 7.4 11.1 12.6 17.1 17zM60 89.7c-4.1-7.3-11.1-12.5-17.1-17C32.5 65.1 28 61 28 53.4V28h64v25.4c0 7.6-4.5 11.7-14.9 19.4-6 4.4-13 9.6-17.1 16.9z"/>
+                            <path class="outer" d="M93.7 95.3c10.5-7.7 26.3-19.4 26.3-41.9V0H0v53.4c0 22.5 15.8 34.2 26.3 41.9 3 2.2 7.9 5.8 9 7.7-1.1 1.9-6 5.5-9 7.7C15.8 118.4 0 130.1 0 152.6V206h120v-53.4c0-22.5-15.8-34.2-26.3-41.9-3-2.2-7.9-5.8-9-7.7 1.1-2 6-5.5 9-7.7zM70.6 103c0 18 35.4 21.8 35.4 49.6V192H14v-39.4c0-27.9 35.4-31.6 35.4-49.6S14 81.2 14 53.4V14h92v39.4C106 81.2 70.6 85 70.6 103z"/>
+                        </svg>
+                    </span>
+                    <span class="prediction" id="prediction_label_vilt"></span>
+                </div>
+                <div class="flex-child"></div>
+                </div>
+            </div> 
+            
+        </div>
+        <div class="container">
+            <h2>Previous results</h2>
+            <div style="display: inline-flexbox;" class="mdc-layout-grid">
+                <div id="previous_cards" class="mdc-layout-grid__inner"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        axios.defaults.baseURL = 'http://localhost:9000';
+
+        // file input
+        var input_file = document.getElementById("input_file");
+        var input_question = document.getElementById("input_question");
+        var prediction_label_vilt = document.getElementById("prediction_label_vilt");
+        var prediction_accuracy = document.getElementById("prediction_accuracy");
+        var input_file_view = document.getElementById('input_file_view');
+        var previous_cards = document.getElementById('previous_cards');
+        var container_cards = document.getElementsByClassName('container')[0];
+
+        function upload_file() {
+            // Clear
+            prediction_label_vilt.innerHTML = "";
+            input_file_view.src = null;
+
+            input_file.click();
+        }
+
+        function show_file_onchange() {
+            var file_to_upload = input_file.files[0];
+            if(input_file_view && input_file_view.style) {
+                input_file_view.style.height = '300px';
+                input_file_view.style.width = '400px';
+            }
+            input_file_view.src = URL.createObjectURL(file_to_upload);
+            input_file_view
+
+        }
+
+        function input_file_onchange() {
+            // Read the uploaded file and display it
+            var file_to_upload = input_file.files[0];
+
+            prediction_label_vilt.innerHTML = "";
+
+            // Post the image to the /predict API
+            var formData = new FormData();
+
+            console.log("Question is",input_question.value);
+            console.log("File is", file_to_upload);
+            question = input_question.value;
+            formData.append("file", input_file.files[0]);
+            url = '/predict/'+ question; 
+            
+            document.getElementsByClassName('hourglass')[0].style.display = 'inline';
+
+            axios.post(url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(function (response) {
+                var prediction_results = response.data;
+                console.log(prediction_results);
+
+                // Display the results
+                var answer = prediction_results['prediction_label_vilt'];
+                prediction_label_vilt.innerHTML = answer;
+                var msg = new SpeechSynthesisUtterance();
+                msg.text = "Answer is " + prediction_results['prediction_label_vilt'];
+                window.speechSynthesis.speak(msg);
+                var previous_results = document.getElementById("previous_id");
+
+                var img = document.createElement('img');
+                img.src = URL.createObjectURL(file_to_upload);
+                img.style.height = '70%';
+                img.style.width = '100%';
+                var question_text = document.createElement('p');
+                question_text.className = "text_value";
+                question_text.innerHTML = "Question: " + input_question.value;
+                var answer_text = document.createElement('p');
+                answer_text.className = "text_value";
+                answer_text.innerHTML = "Answer: " + answer;
+
+                var new_card = document.createElement('div');
+                new_card.classList.add('mdc-layout-grid__cell');
+                new_card.classList.add('mdc-layout-grid__cell--span-2');
+                console.log(new_card);
+                new_card.appendChild(img);
+                new_card.appendChild(question_text);
+                new_card.appendChild(answer_text);
+                previous_cards.appendChild(new_card);
+            }).finally(() => {
+        document.getElementsByClassName('hourglass')[0].style.display = 'none';
+    });
+        }
+
+        // Attach an onchange event
+        input_file.onchange = show_file_onchange;
+        window.addEventListener("DOMContentLoaded", () => {
+            const button = document.getElementById("ask_button");
+            const result = document.getElementById("result");
+            const main = document.getElementsByTagName("main")[0];
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+            if (typeof SpeechRecognition === "undefined") {
+                button.remove();
+                const message = document.getElementById("message");
+                message.removeAttribute("hidden");
+                message.setAttribute("aria-hidden", "false");
+            } else {
+                let listening = false;
+                const recognition = new SpeechRecognition();
+                const start = () => {
+                    recognition.start();
+                    button.textContent = "Stop listening";
+                    button.classList.add("speaking");
+                };
+                const stop = () => {
+                    recognition.stop();
+                    button.textContent = "Ask your question";
+                    button.classList.remove("speaking");
+                };
+                const onResult = event => {
+                    result.innerHTML = "";
+                    for (const res of event.results) {
+                        const text = res[0].transcript;
+                        const p = document.createElement("p");
+                        if (res.isFinal) {
+                        p.classList.add("final");
+                        }
+                        document.getElementById('input_question').value = text;
+                    }
+                };
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.addEventListener("result", onResult);
+
+                button.addEventListener("click", () => {
+                listening ? stop() : start();
+                listening = !listening;
+                });
+            }
+
+        });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,41 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+SQLAlchemy = "*"
+databases = "*"
+requests = "*"
+pandas = "==1.1.5"
+uvicorn = "*"
+fastapi = "*"
+aiofiles = "*"
+google-cloud-storage = "*"
+python-multipart = "*"
+install = "*"
+asyncpg = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
+pytest = "*"
+pytest-asyncio = "*"
+google-auth = "*"
+tensorflow-hub = "*"
+tensorflow = "*"
+gensim = "==3.8.3"
+spacy = "*"
+pytorch-lightning = "==1.1.4"
+transformers = "==4.2.1"
+pillow = "==8.2.0"
+tqdm = "==4.56.0"
+ipdb = "==0.13.4"
+numpy = "==1.19.5"
+einops = "==0.3.0"
+pyarrow = "==2.0.0"
+sacred = "==0.8.2"
+timm = "*"
+
+[requires]
+python_version = "3.8"
