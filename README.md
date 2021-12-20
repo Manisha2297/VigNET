@@ -10,7 +10,7 @@ The application has 3 major components:
 
 All these components are containerised and deployed on **Google Compute Engine**. The end to end application is hosted on GCP (Google Cloud Platform) using the NGNIX container. Deployment on GCP is done using Ansible playbook script. We have followed the instructions in [dlops-io/mushroom-app](https://github.com/dlops-io/mushroom-app/tree/06-deployment) repository for deploying the application on GCP.
 
-We have referred [ViLT](https://github.com/dandelin/ViLT) repository for the visual answering task.
+We have referred [ViLT](https://github.com/dandelin/ViLT) repository for solving visual question answering task.
 
 ## 2. How to get VigNET app working?
 Follow the steps mentioned below to get the VigNET app working:
