@@ -9,7 +9,7 @@ import DataService from "../../services/DataService";
 import styles from './styles';
 import styled, { keyframes, css } from "styled-components";
 // import {TextInput} from "react-native";
-import { Oval } from  'react-loader-spinner';
+import { Oval, TailSpin } from  'react-loader-spinner';
 import Say, {SayUtterance} from 'react-say';
 
 const colorBg = keyframes`0% {
@@ -273,7 +273,7 @@ const Home = (props) => {
                         <Typography variant="h4" gutterBottom align='center'>
                                 <span className={classes.safe}>{"Answer is " + prediction.prediction_label_vilt }</span>
                         </Typography>
-                        : <>{isLoading ? (<Oval color="#00BFFF" height={80} width={700} alt="loading" style={{display: isLoading? 'block': 'none'}}/>): null}</>
+                        : <>{isLoading ? (<span><TailSpin color="#A41034" height={80} width={700} alt="loading" style={{display: isLoading? 'block': 'none'}}/></span>): null}</>
                     }
                     </Container>
         {/* <div> */}
