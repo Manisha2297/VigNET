@@ -1,12 +1,12 @@
 import os
 import asyncio
 import json
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from starlette.middleware.cors import CORSMiddleware
 from api.ViLT.demo_vqa import get_predictions
 from api.ViLT.vilt.config import ex
 
-from api.tracker import TrackerService
+# from api.tracker import TrackerService remove comment
 # import dataaccess.session as database_session
 # from dataaccess import leaderboard
 
@@ -14,7 +14,7 @@ from tempfile import TemporaryDirectory
 from api import model
 
 # Initialize Tracker Service
-tracker_service = TrackerService()
+# tracker_service = TrackerService() remove comment
 
 # Setup FastAPI app
 app = FastAPI(
@@ -44,7 +44,7 @@ async def startup():
     # model.load_pretrained_weights()   
 
     print("===Tracking experiments===")
-    asyncio.create_task(tracker_service.track())
+    # asyncio.create_task(tracker_service.track()) remove comment
 
 
 # @app.on_event("shutdown")
@@ -81,20 +81,44 @@ async def get_index():
 
 
 
-@app.post("/predict/{question}")
+# @app.post("/predict/{question}")
+# async def predict(
+#         question: str = '',
+#         file: bytes = File(...),
+#         # question: str
+# ):
+#     print("question is ",question)
+#     print("predict file:", len(file), type(file))
+
+#     # Save the image
+#     with TemporaryDirectory() as image_dir:
+#         image_path = os.path.join(image_dir, "test.png")
+#         with open(image_path, "wb") as output:
+#             output.write(file)
+
+#         # Make prediction
+#         prediction_results = {}
+#         get_predictions(image_path, question)
+#         prediction_results['prediction_label_vilt'] = ex.info['answer']
+
+#     return prediction_results
+
+
+@app.post("/predict/")
 async def predict(
-        question: str = '',
-        file: bytes = File(...),
+        question: str = Form(...),
+        file: UploadFile = File(...),
         # question: str
 ):
+    file_content = await file.read()
     print("question is ",question)
-    print("predict file:", len(file), type(file))
+    print("predict file:", len(file_content), type(file_content))
 
     # Save the image
     with TemporaryDirectory() as image_dir:
         image_path = os.path.join(image_dir, "test.png")
         with open(image_path, "wb") as output:
-            output.write(file)
+            output.write(file_content)
 
         # Make prediction
         prediction_results = {}

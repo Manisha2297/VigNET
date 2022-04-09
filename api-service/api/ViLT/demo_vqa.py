@@ -6,6 +6,7 @@ import numpy as np
 import json
 import urllib.request
 from PIL import Image
+import gradio as gr
 
 from api.ViLT.vilt.config import ex
 from api.ViLT.vilt.modules import ViLTransformerSS
@@ -72,11 +73,52 @@ def main(_config):
 
         return [np.array(image), answer]
 
-    x = infer(_config['image_url'],_config['question'])
-    print("Question :", _config['question'])
-    print("Answer :", x[1])
-    ex.info['answer'] = x[1]
-    return x[1]
+    if _config["caller"]=="gradio":
+        inputs = [
+            gr.inputs.Textbox(
+                label="Url of an image.",
+                lines=5,
+            ),
+            gr.inputs.Textbox(label="Question", lines=5),
+        ]
+        outputs = [
+            gr.outputs.Image(label="Image"),
+            gr.outputs.Textbox(label="Answer"),
+        ]
+
+        interface = gr.Interface(
+            fn=infer,
+            inputs=inputs,
+            outputs=outputs,
+            server_name="0.0.0.0",
+            server_port=8888,
+            examples=[
+                [
+                    "https://s3.geograph.org.uk/geophotos/06/21/24/6212487_1cca7f3f_1024x1024.jpg",
+                    "What is the color of the flower?",
+                ],
+                [
+                    "https://computing.ece.vt.edu/~harsh/visualAttention/ProjectWebpage/Figures/vqa_1.png",
+                    "What is the mustache made of?",
+                ],
+                [
+                    "https://computing.ece.vt.edu/~harsh/visualAttention/ProjectWebpage/Figures/vqa_2.png",
+                    "How many slices of pizza are there?",
+                ],
+                [
+                    "https://computing.ece.vt.edu/~harsh/visualAttention/ProjectWebpage/Figures/vqa_3.png",
+                    "Does it appear to be rainy?",
+                ],
+            ],
+        )
+
+        interface.launch(debug=True)
+    else:
+        x = infer(_config['image_url'],_config['question'])
+        print("Question :", _config['question'])
+        print("Answer :", x[1])
+        ex.info['answer'] = x[1]
+        return x[1]
 
 
 def get_predictions(image_path, question):

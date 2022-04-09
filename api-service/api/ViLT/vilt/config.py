@@ -82,6 +82,7 @@ def config():
     answer=''
     num_workers = 8
     precision = 16
+    caller = ''
 
 
 # Named configs for "environment" which define gpus and nodes, and paths
