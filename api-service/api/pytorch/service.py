@@ -30,7 +30,7 @@ async def startup():
     # Start the tracker service
 
     print("=== Loading Pre-trained vilt model ===")
-    load_processor_model()
+    await load_processor_model()
     print("== Successfully loaded! ==")
 
 
