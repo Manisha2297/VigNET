@@ -41,10 +41,6 @@ async def startup():
 #     # Disconnect from database
 #     await database_session.disconnect()
 
-# class InputData(BaseModel):
-#     question: str = Form(...)
-#     file: bytes = File(...)
-
 
 # Routes
 @app.get("/")
