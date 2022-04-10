@@ -1,6 +1,4 @@
 import os
-import asyncio
-import json
 from fastapi import FastAPI, File, UploadFile, Form
 from starlette.middleware.cors import CORSMiddleware
 from api.ViLT.demo_vqa import get_predictions
@@ -11,7 +9,6 @@ from api.ViLT.vilt.config import ex
 # from dataaccess import leaderboard
 
 from tempfile import TemporaryDirectory
-from api import model
 
 # Initialize Tracker Service
 # tracker_service = TrackerService() remove comment
