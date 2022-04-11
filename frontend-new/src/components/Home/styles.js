@@ -93,12 +93,12 @@ const styles = theme => ({
         paddingBottom: "20px",
         paddingLeft: "40px",
         paddingRight: "40px",
-        fontSize: "1.3rem",
+        fontSize: "1.8rem",
         marginLeft: "3vw",
         textAlign: "center",
         backgroundColor: "#A41034",
         color: "white", 
-        fontWeight: 700,
+        fontWeight: 800,
         borderStyle: "hidden",
     }
 });

@@ -214,7 +214,7 @@ const Home = (props) => {
                 <Container className={classes.container}>
                     <div>
                         <p className={classes.containerDescription}>
-                            This application will help you understand the things around you just by clicking and picture of your surrounding and asking a question related to the picture. Please click on capture an image button and click on the microphone to ask your question. You will get an answer within seconds!
+                            This application will help you understand the things around you just by clicking a picture of your surrounding and asking a question related to the picture. Please click on capture an image button and click on the microphone to ask your question. You will get an answer within seconds!
                           </p>
                     </div>
                     {/* {prediction &&
@@ -239,7 +239,7 @@ const Home = (props) => {
                             onChange={(event) => handleOnChange(event)} 
                         />
                         <div><img className={classes.preview} src={image} tabIndex="0"/></div>
-                        <div className={classes.help}>Click to take a picture  </div>
+                        <div className={classes.help}>Click to take a picture or upload an image</div>
                     </div>
                 </Container>
                 <Container className={classes.childContainer}>
