@@ -26,13 +26,10 @@ def make_prediction(input_data_encoding):
 
 
 def get_prediction(image_path, question):
-
     # Load & preprocess
     input_data_encoding = encode_input_data(image_path, question)
 
     # Make prediction
     prediction = make_prediction(input_data_encoding)
 
-    return {
-        "predicted_ans": prediction,
-    }
+    return prediction

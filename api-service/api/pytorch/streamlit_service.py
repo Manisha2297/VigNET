@@ -1,6 +1,4 @@
-import os
 from model import load_processor_model
-from tempfile import TemporaryDirectory
 from model import get_prediction
 import streamlit as st
 from PIL import Image
@@ -30,14 +28,7 @@ def read_data():
 
 def predict(file, question):
     print("question is ", question)
-    file_content = file.read()
-    print("predict file:", file.size, type(file), type(file_content))
-
-    # Save the image
-    # with TemporaryDirectory() as image_dir:
-    #     image_path = os.path.join(image_dir, "test.png")
-    #     with open(image_path, "wb") as output:
-    #         output.write(file_content)
+    print("predict file:", file.size, type(file))
 
     # Make prediction
     prediction_results = {}
