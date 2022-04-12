@@ -19,4 +19,4 @@ docker build -t $IMAGE_NAME -f Dockerfile_dev .
 # TODO: CHANGE TO 8080:8080
 docker run --rm --name $IMAGE_NAME -ti \
 --mount type=bind,source="$BASE_DIR",target=/app \
--p 8080:8080 $IMAGE_NAME
+-p 3000:8080 $IMAGE_NAME
