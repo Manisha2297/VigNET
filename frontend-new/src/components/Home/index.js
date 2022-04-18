@@ -33,13 +33,9 @@ const MicrophoneIconElement = styled.img.attrs({
 })`animation: ${props=>props.active? animation : "none"};`
 
 const Home = (props) => {
-    console.log("props")
     const { classes } = props;
-    console.log(classes);
     const true_value = true;
     const false_value = false;
-
-    console.log("================================== Home ======================================");
 
     const inputFile = useRef(null);
 
@@ -47,6 +43,14 @@ const Home = (props) => {
     const [image, setImage] = useState(null);
     const [prediction, setPrediction] = useState(null);
     const [isLoading, setLoading] = useState(false);
+
+    const [error, setError] = useState(null);
+    const errorDiv = error 
+        ? <div className="error">
+            <i class="material-icons error-icon">error_outline</i>
+            {error}
+          </div> 
+        : '';
 
 
     // Setup Component
@@ -56,8 +60,6 @@ const Home = (props) => {
 
     useEffect(() => {
 
-        console.log(isListening);
-        console.log("hjkas");
     }, []);
 
     // Handlers
@@ -65,10 +67,7 @@ const Home = (props) => {
         inputFile.current.click();
     }
     const handleOnChange = (event) => {
-        console.log(event.target.files);
         setImage(URL.createObjectURL(event.target.files[0]));
-        console.log("files:");
-        console.log(event.target.files);
         if(prediction){
           setPrediction(null);
         }
@@ -88,28 +87,24 @@ const Home = (props) => {
         var formData = new FormData();
         if(transcript){
           formData.append("question", transcript);
-          console.log("question:");
-          console.log(transcript);
 
         }
         else{
           formData.append("question", textInput);
-          console.log("question:");
-          console.log(textInput);
         }
-        console.log(inputFile.current.files[0]);
         formData.append("file", inputFile.current.files[0]);
-        console.log(formData);
-        console.log("-------------Form submitted-------------");
         setLoading(!isLoading);
         DataService.Predict(formData)
             .then(function (response) {
-                console.log(response.data);
                 setPrediction(response.data);
                 setLoading(!isLoading);
-                console.log("loading:");
-                console.log(isLoading);
             })
+            .catch(res => {
+              console.log(res.error);
+              setError(res.error);
+              setLoading(!isLoading);
+
+          })
     }
 
     const { transcript, resetTranscript } = useSpeechRecognition();
@@ -127,11 +122,7 @@ const Home = (props) => {
       );
     }
     const isKeyEnter = (event) => {
-      console.log("Event Key:");
-      console.log(event.key);
       if(event.key=='Enter'){
-        console.log("Event:");
-        console.log(event);
         if(event.target.className.includes("microphone")){
           handleListing();
         }
@@ -159,7 +150,6 @@ const Home = (props) => {
       }
       else{
         microphoneRef.current.classList.remove("listening");
-        console.log(microphoneRef.current.classList);
         SpeechRecognition.stopListening();
       }
       setIsListening(!isListening);
@@ -168,7 +158,6 @@ const Home = (props) => {
     };
 
     const textHandleChange = (event) => {
-      console.log("==========text input change============");
       if(prediction){
         setPrediction(null);
       }
@@ -260,12 +249,12 @@ const Home = (props) => {
         <MicrophoneIconElement className={classes.microphone} active={isActive} tabIndex="0"></MicrophoneIconElement>
       </span>
           <span className="microphone-result-text"><textarea className={classes.microphoneTextInput} defaultValue={transcript} required placeholder='Your question here' onChange={textHandleChange}></textarea></span>
-          <span> 
-            <button className={classes.askButton} onClick={onSumbit} onKeyDown={isKeyEnter}>
-            Ask 
-            </button>
-          </span>
           </div>
+        <div className={classes.answerContainer}>
+            <button className={classes.askButton} onClick={onSumbit} onKeyDown={isKeyEnter}>
+            Get Answer
+            </button>
+        </div>
 
           <Container className={classes.childContainer}>
 
@@ -281,6 +270,7 @@ const Home = (props) => {
         {/* <span hidden={isLoading ? '': 'hidden'}>
           {isLoading && (<Oval color="#00BFFF" height={80} width={700} alt="loading" style={{display: isLoading? 'block': 'none'}}/>)}
           </span> */}
+        {errorDiv}
         {prediction && <Say pitch={1.1} rate={1.0} volume={0.8} speak={prediction? prediction.prediction_label_vilt: ''} text={prediction? prediction.prediction_label_vilt: ''}/>
 }
         {/* </div> */}
