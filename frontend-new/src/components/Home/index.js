@@ -11,6 +11,7 @@ import styled, { keyframes, css } from "styled-components";
 // import {TextInput} from "react-native";
 import { Oval, TailSpin } from  'react-loader-spinner';
 import Say, {SayUtterance} from 'react-say';
+import imageCompression from 'browser-image-compression';
 
 const colorBg = keyframes`0% {
     background-color: #fff;
@@ -83,7 +84,7 @@ const Home = (props) => {
         //     })
     }
 
-    const onSumbit = () => {
+    const onSumbit = async () => {
         var formData = new FormData();
         if(transcript){
           formData.append("question", transcript);
@@ -92,7 +93,16 @@ const Home = (props) => {
         else{
           formData.append("question", textInput);
         }
-        formData.append("file", inputFile.current.files[0]);
+        const options = {
+          maxSizeMB: 0.08,
+          maxWidthOrHeight: 350,
+          useWebWorker: true
+        }
+        const compressedFile = await imageCompression(inputFile.current.files[0], options);
+        // console.log(compressedFile);
+        // const compressedFile = inputFile.current.files[0];
+        // console.log(inputFile.current.files[0]);
+        formData.append("file", compressedFile);
         setLoading(!isLoading);
         DataService.Predict(formData)
             .then(function (response) {
