@@ -10,8 +10,9 @@ import styles from './styles';
 import styled, { keyframes, css } from "styled-components";
 // import {TextInput} from "react-native";
 import { Oval, TailSpin } from  'react-loader-spinner';
-import Say, {SayUtterance} from 'react-say';
+import Say, {SayButton, SayUtterance} from 'react-say';
 import imageCompression from 'browser-image-compression';
+import { isChrome, isEdge, isFirefox, isSafari } from 'react-device-detect';
 
 const colorBg = keyframes`0% {
     background-color: #fff;
@@ -44,6 +45,7 @@ const Home = (props) => {
     const [image, setImage] = useState(null);
     const [prediction, setPrediction] = useState(null);
     const [isLoading, setLoading] = useState(false);
+
 
     const [error, setError] = useState(null);
     const errorDiv = error 
@@ -125,11 +127,14 @@ const Home = (props) => {
 
     const microphoneRef = useRef(null);
     if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-      return (
-        <div className="mircophone-container">
-          Browser is not Support Speech Recognition.
-        </div>
-      );
+      // return (
+      //   <div className="mircophone-container">
+      //     Browser does not Support Speech Recognition.
+      //   </div>
+      // );
+      // setSpeechSupported(!isSpeechSupported);
+      console.log("Speech not supported");
+
     }
     const isKeyEnter = (event) => {
       if(event.key=='Enter'){
@@ -256,7 +261,7 @@ const Home = (props) => {
           onKeyDown={isKeyEnter}
         >
         {/* <img src={microPhoneIcon} className="microphone-icon" /> */}
-        <MicrophoneIconElement className={classes.microphone} active={isActive} tabIndex="0"></MicrophoneIconElement>
+        {!isFirefox && <MicrophoneIconElement className={classes.microphone} active={isActive} tabIndex="0"></MicrophoneIconElement>}
       </span>
           <span className="microphone-result-text"><textarea className={classes.microphoneTextInput} defaultValue={transcript} required placeholder='Your question here' onChange={textHandleChange}></textarea></span>
           </div>
@@ -281,7 +286,7 @@ const Home = (props) => {
           {isLoading && (<Oval color="#00BFFF" height={80} width={700} alt="loading" style={{display: isLoading? 'block': 'none'}}/>)}
           </span> */}
         {errorDiv}
-        {prediction && <Say pitch={1.1} rate={1.0} volume={0.8} speak={prediction? prediction.prediction_label_vilt: ''} text={prediction? prediction.prediction_label_vilt: ''}/>
+        {prediction && (isChrome || isEdge || isFirefox) && <Say pitch={1.1} rate={1.0} volume={0.8} speak={prediction? prediction.prediction_label_vilt: ''} text={prediction? prediction.prediction_label_vilt: ''}/>
 }
         {/* </div> */}
         {/* <div>
