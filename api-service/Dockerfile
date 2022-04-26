@@ -1,4 +1,3 @@
-# Use the official Debian-hosted Python image
 FROM python:3.8-slim-buster
 
 ARG DEBIAN_PACKAGES="build-essential git"
@@ -37,6 +36,8 @@ EXPOSE 9000
 # Switch to the new user
 USER app
 WORKDIR /app
+
+COPY . ./
 
 # Install python packages
 ADD --chown=app:app Pipfile Pipfile.lock /app/
