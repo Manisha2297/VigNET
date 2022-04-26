@@ -5,6 +5,7 @@ from PIL import Image
 async def load_processor_model():
     global processor, model
     processor = ViltProcessor.from_pretrained("dandelin/vilt-b32-finetuned-vqa")
+    print("===========Processor loaded===========")
     model = ViltForQuestionAnswering.from_pretrained("dandelin/vilt-b32-finetuned-vqa")
 
 

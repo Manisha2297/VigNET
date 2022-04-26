@@ -91,16 +91,22 @@ const styles = theme => ({
         height: "7vh",
         paddingTop: "15px",
         paddingBottom: "20px",
-        paddingLeft: "40px",
-        paddingRight: "40px",
-        fontSize: "1.3rem",
-        marginLeft: "3vw",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        fontSize: "1.6rem",
+        // marginLeft: "2vw",
         textAlign: "center",
         backgroundColor: "#A41034",
         color: "white", 
-        fontWeight: 700,
+        fontWeight: 600,
         borderStyle: "hidden",
-    }
+    },
+    answerContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "left",
+        marginTop: "5vh"
+    },
 });
 
 export default styles;

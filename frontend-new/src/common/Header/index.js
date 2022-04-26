@@ -47,9 +47,6 @@ const Header = (props) => {
         <div className={classes.root}>
             <AppBar position="static" elevation={0}>
                 <Toolbar variant="dense">
-                    {/* <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={toggleDrawer(true)}>
-                        <MenuIcon />
-                    </IconButton> */}
                     <Link to="/" className={classes.appLink}>
                         <Typography className={classes.appTitle} >
                             VigNET
@@ -57,59 +54,8 @@ const Header = (props) => {
                     </Link>
 
                     <div className={classes.grow} />
-
-
-                    {/* <div>
-                        <IconButton color="inherit" component={Link} to="/">
-                            <Icon>home</Icon>
-                            <Typography variant="caption">&nbsp;Home</Typography>
-                        </IconButton> */}
-                        {/* <IconButton color="inherit" component={Link} to="/leaderboard">
-                            <Icon>leaderboard</Icon>
-                            <Typography variant="caption">&nbsp;Leaderboard</Typography>
-                        </IconButton>
-                        <IconButton color="inherit" component={Link} to="/currentmodel">
-                            <Icon>model_training</Icon>
-                            <Typography variant="caption">&nbsp;Model</Typography>
-                        </IconButton> */}
-                        {/* <IconButton color="inherit">
-                            <Icon>login</Icon>
-                            <Typography variant="caption">&nbsp;Login</Typography>
-                        </IconButton> */}
-                    {/* </div> */}
                 </Toolbar>
             </AppBar>
-            {/* <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
-                <div
-                    tabIndex={0}
-                    role="button"
-                    onClick={toggleDrawer(false)}
-                    onKeyDown={toggleDrawer(false)}
-                >
-                    <div className={classes.list}>
-                        <List>
-                            <ListItem button key='home' component={Link} to="/">
-                                <ListItemIcon><Icon>home</Icon></ListItemIcon>
-                                <ListItemText primary='Home' />
-                            </ListItem>
-                        </List>
-                        <Divider /> */}
-                        {/* <List>
-                            <ListItem button key='menuitem12' component={Link} to="/leaderboard">
-                                <ListItemIcon><Icon>leaderboard</Icon></ListItemIcon>
-                                <ListItemText primary='Leaderboard' />
-                            </ListItem>
-
-                        </List>
-                        <List>
-                            <ListItem button key='menuitem12' component={Link} to="/currentmodel">
-                                <ListItemIcon><Icon>star</Icon></ListItemIcon>
-                                <ListItemText primary='Current Model' />
-                            </ListItem>
-                        </List> */}
-                    {/* </div>
-                </div>
-            </Drawer> */}
         </div>
     );
 }

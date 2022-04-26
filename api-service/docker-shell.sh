@@ -6,13 +6,13 @@ set -e
 # Define some environment variables
 # Automatic export to the environment of subsequently executed commands
 # source: the command 'help export' run in Terminal
-export IMAGE_NAME="vqa-app-api-service"
+export IMAGE_NAME="vignet-app-api-service"
 export BASE_DIR=$(pwd)
 export PERSISTENT_DIR=$(pwd)/../persistent-folder/
 export SECRETS_DIR=$(pwd)/../secrets/
-export GCP_PROJECT="ai5-c1-group3"
-export GCP_ZONE="asia-south1-a"
-export GOOGLE_APPLICATION_CREDENTIALS=/secrets/bucket-reader.json
+export GCP_PROJECT="glanceai-prod-5aea"
+export GCP_ZONE="asia-southeast1-a"
+export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/../secrets/google-ai-glance-reco-credentials.json
 
 # Build the image based on the Dockerfile
 docker build -t $IMAGE_NAME -f Dockerfile .
@@ -25,7 +25,7 @@ docker run --rm --name $IMAGE_NAME -ti \
 --mount type=bind,source="$PERSISTENT_DIR",target=/persistent \
 --mount type=bind,source="$SECRETS_DIR",target=/secrets \
 -p 9000:9000 \
--e DEV=1 \
+-e DEV=0 \
 -e GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS \
 -e GCP_PROJECT=$GCP_PROJECT \
 -e GCP_ZONE=$GCP_ZONE $IMAGE_NAME

@@ -3,7 +3,6 @@ from fastapi import FastAPI, File, Form, UploadFile
 from tempfile import TemporaryDirectory
 from starlette.middleware.cors import CORSMiddleware
 from api.pytorch.model import load_processor_model, get_prediction
-import uvicorn
 
 # Setup FastAPI app
 app = FastAPI(
@@ -62,5 +61,5 @@ async def predict(
     return prediction_results
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="127.0.0.1", port=8000)

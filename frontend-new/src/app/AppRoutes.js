@@ -11,8 +11,6 @@ const AppRouter = (props) => {
     <React.Fragment>
       <Routes>
         <Route path="/" exact element={<Home />} />
-        {/* <Route path="/leaderboard" exact component={Leaderboard} /> */}
-        {/* <Route path="/currentmodel" exact component={Currentmodel} /> */}
         <Route component={Error404} />
       </Routes>
     </React.Fragment>
