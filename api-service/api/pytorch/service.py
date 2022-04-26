@@ -25,21 +25,10 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     # Startup tasks
-    # # Connect to database
-    # await database_session.connect()
-    # Start the tracker service
 
     print("=== Loading Pre-trained vilt model ===")
     await load_processor_model()
     print("== Successfully loaded! ==")
-
-
-# Note: Uncomment this if you're using DB service
-# @app.on_event("shutdown")
-# async def shutdown():
-#     # Shutdown tasks
-#     # Disconnect from database
-#     await database_session.disconnect()
 
 
 # Routes

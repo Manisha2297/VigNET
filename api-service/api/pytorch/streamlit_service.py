@@ -22,7 +22,7 @@ def file_selector():
 
 def read_data():
     image_file = file_selector()
-    question = st.text_input('', 'Input your question here')
+    question = st.text_input("Question", "Input your question here")
     return image_file, question
 
 
@@ -45,8 +45,8 @@ if __name__ == "__main__":
       and click on the microphone to ask your question. You will get an answer within seconds!")
     st.write("")
     st.write("")
-    asyncio.run(load_processor_model())
     image_file, question = read_data()
-    if st.button('Ask'):
+    if st.button('Submit'):
+        asyncio.run(load_processor_model())
         answer = predict(image_file, question)['prediction_label_vilt']
         st.write(answer)
