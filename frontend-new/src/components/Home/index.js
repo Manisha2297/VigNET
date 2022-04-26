@@ -8,7 +8,6 @@ import microPhoneIcon from "../../mic.svg"
 import DataService from "../../services/DataService";
 import styles from './styles';
 import styled, { keyframes, css } from "styled-components";
-// import {TextInput} from "react-native";
 import { Oval, TailSpin } from  'react-loader-spinner';
 import Say, {SayButton, SayUtterance} from 'react-say';
 import imageCompression from 'browser-image-compression';
@@ -77,13 +76,6 @@ const Home = (props) => {
         if(isLoading){
           setLoading(!isLoading);
         }
-        // var formData = new FormData();
-        // formData.append("file", event.target.files[0]);
-        // DataService.Predict(formData)
-        //     .then(function (response) {
-        //         console.log(response.data);
-        //         setPrediction(response.data);
-        //     })
     }
 
     const onSumbit = async () => {
@@ -101,9 +93,6 @@ const Home = (props) => {
           useWebWorker: true
         }
         const compressedFile = await imageCompression(inputFile.current.files[0], options);
-        // console.log(compressedFile);
-        // const compressedFile = inputFile.current.files[0];
-        // console.log(inputFile.current.files[0]);
         formData.append("file", compressedFile);
         setLoading(!isLoading);
         DataService.Predict(formData)
@@ -127,12 +116,6 @@ const Home = (props) => {
 
     const microphoneRef = useRef(null);
     if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-      // return (
-      //   <div className="mircophone-container">
-      //     Browser does not Support Speech Recognition.
-      //   </div>
-      // );
-      // setSpeechSupported(!isSpeechSupported);
       console.log("Speech not supported");
 
     }
@@ -188,29 +171,6 @@ const Home = (props) => {
       }
     }
 
-    // const stopHandle = () => {
-    //     setIsListening(false_value);
-    //     setIsActive(false_value);
-    //     console.log(isActive);
-    //     console.log("Stopping");
-    //     console.log(isListening);
-    //     console.log(transcript);
-    //     microphoneRef.current.classList.remove("listening");
-    //     console.log(microphoneRef.current.classList);
-    //     SpeechRecognition.stopListening();
-    // };
-
- 
-
-    // const handleReset = () => {
-    //   stopHandle();
-    //   resetTranscript();
-    // //   console.log(isListening);
-    // //   console.log(isActive);
-    // };
-
-
-    
 
     return (
         <div className={classes.root}>
@@ -221,16 +181,6 @@ const Home = (props) => {
                             This application will help you understand the things around you just by clicking a picture of your surrounding and asking a question related to the picture. Please click on capture an image button and click on the microphone to ask your question. You will get an answer within seconds!
                           </p>
                     </div>
-                    {/* {prediction &&
-                        <Typography variant="h4" gutterBottom align='center'>
-                            {!prediction.poisonous &&
-                                <span className={classes.safe}>{prediction.prediction_label + " (" + prediction["accuracy"] + "%)"}</span>
-                            }
-                            {prediction.poisonous &&
-                                <span className={classes.poisonous}>{prediction.prediction_label + " (" + prediction["accuracy"] + "%)"}&nbsp;&nbsp;Poisonous</span>
-                            }
-                        </Typography>
-                    } */}
                     <div className={classes.dropzone} onClick={() => handleImageUploadClick()} onKeyDown={isKeyEnter} tabIndex="0">
                         <input
                             type="file"
@@ -251,16 +201,12 @@ const Home = (props) => {
       <div className="mircophone-container">
         </div>
         <div className={classes.askContainer}>
-        {/* <span className={classes.microphoneStatus}>
-          Click to ask a question
-        </span> */}
         <span
           className={classes.microphoneIconContainer}
           ref={microphoneRef}
           onClick={handleListing}
           onKeyDown={isKeyEnter}
         >
-        {/* <img src={microPhoneIcon} className="microphone-icon" /> */}
         {!isFirefox && <MicrophoneIconElement className={classes.microphone} active={isActive} tabIndex="0"></MicrophoneIconElement>}
       </span>
           <span className="microphone-result-text"><textarea className={classes.microphoneTextInput} defaultValue={transcript} required placeholder='Your question here' onChange={textHandleChange}></textarea></span>
@@ -280,22 +226,9 @@ const Home = (props) => {
                         : <>{isLoading ? (<span><TailSpin color="#A41034" height={80} width={700} alt="loading" style={{display: isLoading? 'block': 'none'}}/></span>): null}</>
                     }
                     </Container>
-        {/* <div> */}
-
-        {/* <span hidden={isLoading ? '': 'hidden'}>
-          {isLoading && (<Oval color="#00BFFF" height={80} width={700} alt="loading" style={{display: isLoading? 'block': 'none'}}/>)}
-          </span> */}
         {errorDiv}
         {prediction && (isChrome || isEdge || isFirefox) && <Say pitch={1.1} rate={1.0} volume={0.8} speak={prediction? prediction.prediction_label_vilt: ''} text={prediction? prediction.prediction_label_vilt: ''}/>
 }
-        {/* </div> */}
-        {/* <div>
-            {transcript && (
-          <button className="microphone-reset btn" onClick={handleReset}>
-            Reset
-          </button>
-          )}
-        </div> */}
     </div>
                 </Container>
             </main>

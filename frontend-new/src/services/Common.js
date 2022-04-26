@@ -1,4 +1,3 @@
-// export const BASE_API_URL = "https://vignet-backend.glanceai.inmobi.com";
 export const BASE_API_URL = "http://localhost:9000";
 
 
